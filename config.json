@@ -1,0 +1,5 @@
+{
+    "prefix": "db!",
+    "commandsPerPage": 5,
+    "defaultCooldown": 3
+}

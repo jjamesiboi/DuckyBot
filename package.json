@@ -1,0 +1,25 @@
+{
+  "name": "duckybot",
+  "version": "0.0.1",
+  "description": "DuckyBot is a verification and welcoming Discord bot for your server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodesWithJames/DuckyBot.git"
+  },
+  "author": "CodesWithJames",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/CodesWithJames/DuckyBot/issues"
+  },
+  "homepage": "https://github.com/CodesWithJames/DuckyBot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.11.18",
+    "node-fetch": "^2.6.1"
+  }
+}
