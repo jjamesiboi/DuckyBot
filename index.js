@@ -1,8 +1,10 @@
 require("dotenv").config();
 
+const config = require("./config.json");
+
 const fs = require("fs");
-const {prefix} = require("./config.json");
 const mongoose = require("mongoose");
+const Guild = require("./models/Guild.js");
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -16,7 +18,10 @@ client.on("ready", () => {
     console.log("Bot is ready.");
 });
 
-client.on("message", message => {
+client.on("message", async message => {
+    const dbGuild = await Guild.findOne({id: message.guild.id});
+    const prefix = dbGuild ? dbGuild.prefix : config.prefix;
+
     const args = message.content.slice(prefix.length).trim().split(" ");
     const commandName = args.shift().toLowerCase();
 
@@ -71,7 +76,8 @@ async function start() {
     await mongoose.connect(process.env.DATABASE_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true
+        useCreateIndex: true,
+        useFindAndModify: false
     });
 
     console.log("Loading categories...");
