@@ -1,5 +1,6 @@
 {
     "prefix": "db!",
     "commandsPerPage": 5,
-    "defaultCooldown": 3
+    "defaultCooldown": 3,
+    "maxPrefixLength": 3
 }

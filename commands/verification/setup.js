@@ -40,18 +40,16 @@ module.exports = {
 
         const option = args[0].toLowerCase();
 
-        // TODO: set verification.enabled to true as default when adding roleId or messageId
         switch (option) {
             case "message": {
-                const messageId = args[1];
+                // TODO: Check if the guild has premium
 
-                try {
-                    await message.channel.messages.fetch(messageId);
-                } catch (err) {
-                    return message.channel.send((err instanceof DiscordAPIError) ? ":x: Unknown message." : ":x: Something went wrong. Try again later.");
-                }
+                const text = args[1];
+                
+                if (!text)
+                    return message.channel.send(":x: I didn't find any message.");
 
-                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.messageId": messageId}}, {upsert: true});
+                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.message": messageId}}, {upsert: true});
                 return message.channel.send(":white_check_mark: Set verification message.");
             }
 

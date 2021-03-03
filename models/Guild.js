@@ -3,7 +3,7 @@ const {Schema, model} = require("mongoose");
 
 const verificationSchema = new Schema({
     enabled: {type: Boolean, default: true},
-    messageId: String,
+    message: String,
     roleId: String
 });
 
