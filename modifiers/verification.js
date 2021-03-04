@@ -39,16 +39,21 @@ module.exports = client => {
                 const role = await member.guild.roles.fetch(dbGuild.verification.roleId);
                 member.roles.add(role);
 
-                member.user.dmChannel.send(":white_check_mark: You successfully verified.");
+                member.user.dmChannel.send(":white_check_mark: You successfully verified in the server, and was given the role.");
 
                 break;
             } else {
-                member.user.dmChannel.send(":x: Invalid code.");
+                member.user.dmChannel.send(":x: Invalid captcha code.");
                 --tries;
             }
 
+<<<<<<< HEAD
             if (tries == 0) {
                 member.user.dmChannel.send(":x: You failed the verification.");
+=======
+            if (tries == 3) {
+                member.user.dmChannel.send(":x: You failed the verification process .");
+>>>>>>> 64b8855cd1e65a6e168af3288dde701009ed4dfe
                 break;
             }
         }

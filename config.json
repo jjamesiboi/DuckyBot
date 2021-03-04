@@ -5,5 +5,5 @@
     "maxPrefixLength": 3,
     "captchaWidth": 200,
     "captchaHeight": 100,
-    "defaultVerificationMessage": "In order to verify, you need to complete the captcha."
+    "defaultVerificationMessage": "Hello! This server has a verification system, In order to verify, you need to complete the captcha sent down below. Please enter the Text on the image, remember this is case sensitive."
 }
