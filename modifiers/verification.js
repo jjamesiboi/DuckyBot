@@ -47,13 +47,8 @@ module.exports = client => {
                 --tries;
             }
 
-<<<<<<< HEAD
             if (tries == 0) {
-                member.user.dmChannel.send(":x: You failed the verification.");
-=======
-            if (tries == 3) {
                 member.user.dmChannel.send(":x: You failed the verification process .");
->>>>>>> 64b8855cd1e65a6e168af3288dde701009ed4dfe
                 break;
             }
         }
