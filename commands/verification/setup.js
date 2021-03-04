@@ -39,6 +39,7 @@ module.exports = {
         }
 
         const option = args[0].toLowerCase();
+        const {enabled: verificationEnabled} = await Guild.findOne().enabled === true;
 
         switch (option) {
             case "message": {
@@ -49,7 +50,11 @@ module.exports = {
                 if (!text)
                     return message.channel.send(":x: I didn't find any message.");
 
-                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.message": messageId}}, {upsert: true});
+                await Guild.findOneAndUpdate(
+                    {id: message.guild.id},
+                    {$set: {"verification.message": messageId, "verification.enabled": true}},
+                    {upsert: true}
+                );
                 return message.channel.send(":white_check_mark: Set verification message.");
             }
 

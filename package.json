@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/CodesWithJames/DuckyBot#readme",
   "dependencies": {
+    "captchapng": "0.0.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "mongoose": "^5.11.18",
-    "node-fetch": "^2.6.1",
-    "svg-captcha": "^1.4.0"
+    "node-fetch": "^2.6.1"
   }
 }

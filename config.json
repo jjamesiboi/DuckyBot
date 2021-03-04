@@ -2,5 +2,8 @@
     "prefix": "db!",
     "commandsPerPage": 5,
     "defaultCooldown": 3,
-    "maxPrefixLength": 3
+    "maxPrefixLength": 3,
+    "captchaWidth": 200,
+    "captchaHeight": 100,
+    "defaultVerificationMessage": "In order to verify, you need to complete the captcha."
 }

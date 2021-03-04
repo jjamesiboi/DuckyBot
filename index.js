@@ -7,7 +7,9 @@ const mongoose = require("mongoose");
 const Guild = require("./models/Guild.js");
 
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({
+    ws: {intents: [Discord.Intents.NON_PRIVILEGED, "GUILD_MEMBERS"]}
+});
 
 client.commands = new Discord.Collection();
 client.cooldowns = new Map();
@@ -19,8 +21,12 @@ client.on("ready", () => {
 });
 
 client.on("message", async message => {
+    if (message.channel.type === "dm") return;
+
     const dbGuild = await Guild.findOne({id: message.guild.id});
     const prefix = dbGuild ? dbGuild.prefix : config.prefix;
+
+    if (!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).trim().split(" ");
     const commandName = args.shift().toLowerCase();
@@ -80,7 +86,7 @@ async function start() {
         useFindAndModify: false
     });
 
-    console.log("Loading categories...");
+    console.log("Loading categories and commands...");
 
     const categories = fs.readdirSync(`${__dirname}/commands`, {withFileTypes: true});
 
@@ -99,6 +105,15 @@ async function start() {
         }
 
         client.commands.set(category.name, category);
+    }
+
+    console.log("Loading modifiers...");
+
+    const modifiers = fs.readdirSync(`${__dirname}/modifiers`);
+
+    for (const modifier of modifiers) {
+        if (!modifier.endsWith(".js")) continue;
+        require(`${__dirname}/modifiers/${modifier}`)(client);
     }
 
     client.login(process.env.DISCORD_TOKEN);
