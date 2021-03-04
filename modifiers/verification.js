@@ -24,7 +24,7 @@ module.exports = client => {
         await member.send(message, attachment);
 
         const filter = msg => msg.author.id === member.id;
-        let tries = 0;
+        let tries = 3;
 
         while (true) {
             let message;
@@ -47,7 +47,7 @@ module.exports = client => {
                 --tries;
             }
 
-            if (tries == 3) {
+            if (tries == 0) {
                 member.user.dmChannel.send(":x: You failed the verification.");
                 break;
             }
