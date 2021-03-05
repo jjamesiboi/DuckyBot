@@ -2,14 +2,29 @@ const Captcha = require("captchapng");
 const Guild = require("../models/Guild.js");
 const {MessageAttachment} = require("discord.js");
 
-const {captchaWidth, captchaHeight, defaultVerificationMessage} = require("../config.json");
+const {
+       captchaLength,
+       captchaWidth,
+       captchaHeight,
+       captchaTries,
+       defaultVerificationMessage
+      } = require("../config.json");
+
+const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+function generateCode(length) {
+    let code = "";
+
+    for (let i = 0; i < length; ++i) code += characters[Math.floor(Math.random() * characters.length)];
+    return code;
+}
 
 module.exports = client => {
     client.on("guildMemberAdd", async member => {
         const dbGuild = await Guild.findOne({id: member.guild.id});
         if (!dbGuild || !dbGuild.verification) return;
 
-        const code = (Math.random() * 900000 + 100000).toFixed();
+        const code = (Math.random() * 900000 + Math.pow(10, captchaLength - 1)).toFixed();
 
         const captcha = new Captcha(captchaWidth, captchaHeight, code);
         captcha.color(0, 0, 0, 0);
@@ -24,21 +39,25 @@ module.exports = client => {
         await member.send(message, attachment);
 
         const filter = msg => msg.author.id === member.id;
-        let tries = 3;
+        let tries = captchaTries;
 
         while (true) {
             let message;
+
             try {
-                message = (await member.user.dmChannel.awaitMessages(filter, {max: 1, time: 30000})).first();
+                const collected = await member.user.dmChannel.awaitMessages(filter, {max: 1, time: 30000, errors: ["time"]});
+                message = collected.first();
             } catch (err) {
                 member.user.dmChannel.send(":x: Time's up.");
+                member.kick("Failed the verification");
+
                 break;
             }
 
             if (message.content === code) {
                 const role = await member.guild.roles.fetch(dbGuild.verification.roleId);
-                member.roles.add(role);
 
+                member.roles.add(role);
                 member.user.dmChannel.send(":white_check_mark: You successfully verified in the server, and was given the role.");
 
                 break;
@@ -48,7 +67,9 @@ module.exports = client => {
             }
 
             if (tries == 0) {
-                member.user.dmChannel.send(":x: You failed the verification process .");
+                member.user.dmChannel.send(":x: You failed the verification process.");
+                member.kick("Failed the verification");
+
                 break;
             }
         }

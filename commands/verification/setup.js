@@ -45,14 +45,14 @@ module.exports = {
             case "message": {
                 // TODO: Check if the guild has premium
 
-                const text = args[1];
-                
+                const text = args.slice(1).join(" ");
+
                 if (!text)
                     return message.channel.send(":x: I didn't find any message.");
 
                 await Guild.findOneAndUpdate(
                     {id: message.guild.id},
-                    {$set: {"verification.message": messageId, "verification.enabled": true}},
+                    {$set: {"verification.message": text, "verification.enabled": true}},
                     {upsert: true}
                 );
                 return message.channel.send(":white_check_mark: Set verification message.");

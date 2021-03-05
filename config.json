@@ -1,9 +1,13 @@
 {
     "prefix": "db!",
+
     "commandsPerPage": 5,
     "defaultCooldown": 3,
     "maxPrefixLength": 3,
-    "captchaWidth": 200,
-    "captchaHeight": 100,
+
+    "captchaLength": 6,
+    "captchaWidth": 300,
+    "captchaHeight": 150,
+    "captchaTries": 2,
     "defaultVerificationMessage": "Hello! This server has a verification system, In order to verify, you need to complete the captcha sent down below. Please enter the Text on the image, remember this is case sensitive."
 }
