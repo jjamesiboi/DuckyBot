@@ -18,6 +18,10 @@ process.on("unhandledRejection", err => console.log(err));
 
 client.on("ready", () => {
     console.log("Bot is ready.");
+    client.user.setActivity("In development! You should check me out :eyes: oo", {
+  type: "STREAMING",
+  url: "https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=DeeckPeeck"
+});
 });
 
 client.on("message", async message => {
