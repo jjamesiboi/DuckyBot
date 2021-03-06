@@ -6,7 +6,7 @@ module.exports = {
     description: "Sends a image from thispersondoesnotexist.com",
 
     async execute(client, message) {
-        const resp = await fetch("https://thispersondoesnotexist.com);
+        const resp = await fetch("https://thispersondoesnotexist.com");
         const {url} = await resp.json();
 
         const embed = new MessageEmbed()
