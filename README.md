@@ -4,9 +4,11 @@ DuckyBot is a verification and welcoming Discord bot for your server.
 # Developers
 Thanks to our great developers for making this bot, we are a team of 3 developers/staff.
 
-- hufeepufee123 - Description of me here
+- hufeepufee123 - Advanced Python, Lua And JavaScript Developer. Learning: C#, C++, HTML.
 - Just Dan - Python, Javascript developer. HTML, CSS and EJS advanced developer.
-- Jamesiboi - JavaScript developer, newbie html and css developer. Founder of DuckyBot.
+- Jamesiboi - JavaScript developer, newbie HTML and CSS developer. Founder of DuckyBot.
+- Could Be You - DuckyBot Is Hiring, Why not apply? Its in our discord server. 
+
 # Features
 - Fun - we have fun commands to use
 - Verification - verification with captcha, isn't that cool?
