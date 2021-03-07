@@ -2,9 +2,10 @@ const {prefix: defaultPrefix} = require("../config.json");
 const {Schema, model} = require("mongoose");
 
 const verificationSchema = new Schema({
-    enabled: {type: Boolean, default: true},
+    enabled: {type: Boolean, default: false},
     message: String,
-    roleId: String
+    roleId: String,
+    channelId: String
 });
 
 const guildSchema = new Schema({

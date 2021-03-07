@@ -8,10 +8,13 @@ module.exports = {
 
     async execute(client, message, args) {
         if (!args.length || typeof args[0] !== "string") {
+            const dbGuild = await Guild.findOne({id: message.guild.id});
+            const isEnabled = dbGuild ? dbGuild.verification.enabled === true : false;
+
             const embed = new MessageEmbed()
                 .setTitle("Setup")
                 .setColor("RANDOM")
-                .setFooter(message.author.tag, message.author.displayAvatarURL())
+                .setFooter(`Verification is ${isEnabled ? "enabled" : "not enabled"}.`)
                 .setTimestamp()
                 .addFields(
                     {
@@ -22,6 +25,11 @@ module.exports = {
                     {
                         name: "`setup role <role>`",
                         value: "Set verification role",
+                    },
+
+                    {
+                        name: "`setup notification-channel <channel>`",
+                        value: "Set notification channel (if user's DM are closed, this channel will be used to tell them)"
                     },
 
                     {
@@ -39,7 +47,6 @@ module.exports = {
         }
 
         const option = args[0].toLowerCase();
-        const {enabled: verificationEnabled} = await Guild.findOne().enabled === true;
 
         switch (option) {
             case "message": {
@@ -50,11 +57,7 @@ module.exports = {
                 if (!text)
                     return message.channel.send(":x: I didn't find any message.");
 
-                await Guild.findOneAndUpdate(
-                    {id: message.guild.id},
-                    {$set: {"verification.message": text, "verification.enabled": true}},
-                    {upsert: true}
-                );
+                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.message": text}}, {upsert: true});
                 return message.channel.send(":white_check_mark: Set verification message.");
             }
 
@@ -69,8 +72,31 @@ module.exports = {
                 return message.channel.send(":white_check_mark: Set verification role.");
             }
 
+            case "notification-channel": {
+                const channel = message.mentions.channels.first();
+
+                if (!channel)
+                    return message.channel.send(":x: Unknown channel.");
+
+                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.channelId": channel.id}}, {upsert: true});
+                return message.channel.send(":white_check_mark: Set verification channel.");
+            }
+
             case "enable": {
-                await Guild.findOneAndUpdate({id: message.guild.id}, {$set: {"verification.enabled": true}}, {upsert: true});
+                const dbGuild = await Guild.findOneAndUpdate({id: message.guild.id}, {}, {upsert: true});
+
+                if (!dbGuild.verification.message)
+                    return message.channel.send(":x: You need to set message.");
+
+                if (!dbGuild.verification.roleId)
+                    return message.channel.send(":x: You need to set role.");
+
+                if (!dbGuild.verification.channelId)
+                    return message.channel.send(":x: You need to set notification channel.");
+
+                dbGuild.verification.enabled = true;
+                dbGuild.save();
+
                 return message.channel.send(":white_check_mark: Enabled verification.");
             }
 

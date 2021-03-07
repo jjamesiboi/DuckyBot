@@ -1,4 +1,4 @@
-const {MessageEmbed} = require("discord.js");
+const {MessageEmbed, MessageAttachment} = require("discord.js");
 const fetch = require("node-fetch");
 
 module.exports = {
@@ -6,13 +6,13 @@ module.exports = {
     description: "Sends a image from thispersondoesnotexist.com",
 
     async execute(client, message) {
-        const resp = await fetch("https://thispersondoesnotexist.com");
-        const {url} = await resp.json();
+        const attachment = new MessageAttachment("https://thispersondoesnotexist.com/image", "person.png");
 
         const embed = new MessageEmbed()
-        .setTitle("It looks real!")
+            .setTitle("It looks real!")
             .setColor("RANDOM")
-            .setImage(url)
+            .attachFiles([attachment])
+            .setImage("attachment://person.png")
             .setFooter(`Powered by thispersondoesnotexist.com`);
 
         message.channel.send(embed);
