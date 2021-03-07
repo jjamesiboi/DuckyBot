@@ -38,7 +38,7 @@ DATABASE_URL=mongodb database connection url
     "defaultVerificationMessage": "Hello! This server has a verification system, In order to verify, you need to complete the captcha sent down below. Please enter the Text on the image, remember this is case sensitive."
 }
 ```
-
+# Config Properties 
 - prefix - prefix of the bot
 
 - commandsPerPage - amount of commands to display per page (in help command)
