@@ -1,5 +1,5 @@
-const {maxPrefixLength} = require("../../config.json");
-const Guild = require("../../models/Guild.js");
+const {maxPrefixLength} = require("@root/config.json");
+const Guild = require("@models/Guild.js");
 
 module.exports = {
     name: "set-prefix",

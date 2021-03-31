@@ -2,7 +2,7 @@
     "prefix": "db!",
 
     "commandsPerPage": 5,
-    "defaultCooldown": 3,
+    "defaultCooldown": 2,
     "maxPrefixLength": 3,
 
     "captchaLength": 6,

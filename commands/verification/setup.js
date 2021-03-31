@@ -1,5 +1,5 @@
 const {MessageEmbed, DiscordAPIError} = require("discord.js");
-const Guild = require("../../models/Guild.js");
+const Guild = require("@models/Guild.js");
 
 module.exports = {
     name: "setup",
@@ -9,7 +9,7 @@ module.exports = {
     async execute(client, message, args) {
         if (!args.length || typeof args[0] !== "string") {
             const dbGuild = await Guild.findOne({id: message.guild.id});
-            const isEnabled = dbGuild ? dbGuild.verification.enabled === true : false;
+            const isEnabled = dbGuild && dbGuild.verification ? dbGuild.verification.enabled : false;
 
             const embed = new MessageEmbed()
                 .setTitle("Setup")
@@ -83,7 +83,7 @@ module.exports = {
             }
 
             case "enable": {
-                const dbGuild = await Guild.findOneAndUpdate({id: message.guild.id}, {}, {upsert: true});
+                const dbGuild = await Guild.findOneOrCreate({id: message.guild.id});
 
                 if (!dbGuild.verification.message)
                     return message.channel.send(":x: You need to set message.");

@@ -1,5 +1,5 @@
 const Captcha = require("captchapng");
-const Guild = require("../models/Guild.js");
+const Guild = require("@models/Guild.js");
 const {MessageAttachment} = require("discord.js");
 
 const {
@@ -15,7 +15,9 @@ const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
 function generateCode(length) {
     let code = "";
 
-    for (let i = 0; i < length; ++i) code += characters[Math.floor(Math.random() * characters.length)];
+    for (let i = 0; i < length; ++i)
+        code += characters[Math.floor(Math.random() * characters.length)];
+
     return code;
 }
 
@@ -41,8 +43,7 @@ module.exports = client => {
         } catch (err) {
             if (err.name === "Cannot send messages to this user") {
                 const notificationChannel = member.guild.channels.cache.get(dbGuild.verification.channelId);
-
-                return notificationChannel.send(`:x: ${member}, This server has a verification system, we wanted to send you a DM/PM with a captcha but we cant :tired_face:! Please open your DM's/PM's And try again! https://gyazo.com/ba952e813b92bb62422e3ac05160a7ff`);
+                return notificationChannel.send(`:x: ${member}, This server has a verification system, we wanted to send you a DM/PM with a captcha but we cant :tired_face:! Please open your DM's/PM's And try again!\nhttps://gyazo.com/ba952e813b92bb62422e3ac05160a7ff`);
             }
         }
 

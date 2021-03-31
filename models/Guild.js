@@ -1,17 +1,21 @@
-const {prefix: defaultPrefix} = require("../config.json");
+const {prefix: defaultPrefix} = require("@root/config.json");
 const {Schema, model} = require("mongoose");
 
-const verificationSchema = new Schema({
+const VerificationSchema = new Schema({
     enabled: {type: Boolean, default: false},
     message: String,
     roleId: String,
     channelId: String
 });
 
-const guildSchema = new Schema({
+const GuildSchema = new Schema({
     id: {type: String, required: true, unique: true},
     prefix: {type: String, default: defaultPrefix},
-    verification: verificationSchema
+    verification: VerificationSchema
 }, {versionKey: false});
 
-module.exports = model("Guild", guildSchema);
+GuildSchema.statics.findOneOrCreate = async function(query) {
+    return await this.findOneAndUpdate(query, {}, {upsert: true, new: true, setDefaultsOnInsert: true});
+}
+
+module.exports = model("Guild", GuildSchema);

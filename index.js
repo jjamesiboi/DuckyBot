@@ -1,10 +1,11 @@
+require('module-alias/register');
 require("dotenv").config();
 
-const config = require("./config.json");
+const config = require("@root/config.json");
 
 const fs = require("fs");
 const mongoose = require("mongoose");
-const Guild = require("./models/Guild.js");
+const Guild = require("@models/Guild.js");
 
 const Discord = require("discord.js");
 const client = new Discord.Client({
